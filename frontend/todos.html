@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MeetingNote Pro - 할 일 칸반</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="theme.js"></script>
+</head>
+
+<body class="bg-page dark:bg-canvas text-ink dark:text-fg font-sans antialiased min-h-screen flex flex-col">
+
+<header class="sticky top-0 z-30 bg-white dark:bg-canvas border-b border-line dark:border-edge">
+  <div class="max-w-6xl mx-auto px-4 h-14 flex items-center gap-3">
+    <a href="meetings.html" class="flex items-center gap-2 shrink-0">
+      <div class="w-7 h-7 rounded-lg bg-ink dark:bg-fg grid place-items-center text-white dark:text-canvas font-extrabold text-sm">M</div>
+      <span class="font-extrabold tracking-tight">MeetingNote</span>
+    </a>
+    <nav class="flex items-center gap-1 text-[13px] font-bold ml-2 min-w-0 overflow-x-auto">
+      <a href="meetings.html" class="px-2.5 py-1 rounded-lg text-ink-2 dark:text-dim hover:bg-page dark:hover:bg-chip transition">회의록</a>
+      <span class="px-2.5 py-1 rounded-lg bg-page dark:bg-chip">할 일</span>
+      <a href="team.html" class="px-2.5 py-1 rounded-lg text-ink-2 dark:text-dim hover:bg-page dark:hover:bg-chip transition">팀</a>
+      <a href="profile.html" class="px-2.5 py-1 rounded-lg text-ink-2 dark:text-dim hover:bg-page dark:hover:bg-chip transition">내 정보</a>
+    </nav>
+    <div class="ml-auto" id="themeSlot"></div>
+  </div>
+</header>
+
+<main class="flex-1 w-full max-w-6xl mx-auto px-4 py-5">
+
+  <!-- 탭 + 필터 -->
+  <section class="rounded-2xl bg-white dark:bg-surface border border-line dark:border-edge p-4 mb-4">
+    <div class="flex flex-wrap items-center gap-2">
+      <div class="flex gap-1 p-1 rounded-xl bg-page dark:bg-chip">
+        <button id="tabMine" class="px-3 py-1.5 rounded-lg text-[13px] font-bold transition">내 할 일</button>
+        <button id="tabAll"  class="px-3 py-1.5 rounded-lg text-[13px] font-bold transition">전체</button>
+      </div>
+      <select id="fWho" class="h-10 px-3 rounded-xl bg-page dark:bg-chip border border-line dark:border-edge text-[13px] font-bold focus:outline-none focus:border-blue-dot transition">
+        <option>담당자 전체</option><option>김대리</option><option>박과장</option><option>이주임</option><option>최선임</option><option>미정</option>
+      </select>
+      <span id="sum" class="ml-auto text-[12px] text-ink-3 dark:text-dim"></span>
+    </div>
+  </section>
+
+  <!-- 칸반 3열 -->
+  <div id="board" class="grid gap-3 md:grid-cols-3"></div>
+
+  <div id="empty" class="hidden rounded-2xl bg-white dark:bg-surface border border-line dark:border-edge px-5 py-12 text-center">
+    <p class="text-sm font-bold" id="emptyTitle">배정된 할 일이 없음</p>
+    <p class="text-[12px] text-ink-2 dark:text-dim mt-1" id="emptySub">회의록을 올리면 할 일이 자동으로 뽑혀 나옴</p>
+  </div>
+
+  <div id="toast" class="hidden mt-4"></div>
+  <p class="mt-3 text-[11px] text-ink-3 dark:text-dim">카드를 끌어 옮기거나, 눌러서 옮길 칸을 고릅니다. 좁은 화면에서는 누르는 길을 씁니다.</p>
+</main>
+
+<script src="api.js"></script>
+<script src="todos.js"></script>
+</body>
+</html>

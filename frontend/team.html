@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MeetingNote Pro - 팀 설정</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="theme.js"></script>
+</head>
+
+<body class="bg-page dark:bg-canvas text-ink dark:text-fg font-sans antialiased min-h-screen flex flex-col">
+
+<header class="sticky top-0 z-30 bg-white dark:bg-canvas border-b border-line dark:border-edge">
+  <div class="max-w-6xl mx-auto px-4 h-14 flex items-center gap-3">
+    <a href="meetings.html" class="flex items-center gap-2 shrink-0">
+      <div class="w-7 h-7 rounded-lg bg-ink dark:bg-fg grid place-items-center text-white dark:text-canvas font-extrabold text-sm">M</div>
+      <span class="font-extrabold tracking-tight">MeetingNote</span>
+    </a>
+    <nav class="flex items-center gap-1 text-[13px] font-bold ml-2 min-w-0 overflow-x-auto">
+      <a href="meetings.html" class="px-2.5 py-1 rounded-lg text-ink-2 dark:text-dim hover:bg-page dark:hover:bg-chip transition">회의록</a>
+      <a href="todos.html" class="px-2.5 py-1 rounded-lg text-ink-2 dark:text-dim hover:bg-page dark:hover:bg-chip transition">할 일</a>
+      <span class="px-2.5 py-1 rounded-lg bg-page dark:bg-chip">팀</span>
+      <a href="profile.html" class="px-2.5 py-1 rounded-lg text-ink-2 dark:text-dim hover:bg-page dark:hover:bg-chip transition">내 정보</a>
+    </nav>
+    <div class="ml-auto flex items-center gap-2" id="themeSlot"></div>
+  </div>
+</header>
+
+<main class="flex-1 w-full max-w-6xl mx-auto px-4 py-5 space-y-4">
+
+  <!-- 팀 만들기 / 합류 (소속 팀이 없을 때) -->
+  <section id="onboard" class="hidden rounded-2xl bg-white dark:bg-surface border border-line dark:border-edge
+           border-l-[6px] border-l-purple-dot p-5">
+    <h1 class="text-lg font-extrabold">아직 소속 팀이 없음</h1>
+    <p class="text-[13px] text-ink-2 dark:text-dim mt-1">팀을 새로 만들거나, 받은 초대코드로 합류</p>
+    <div class="mt-4 grid gap-3 sm:grid-cols-2">
+      <div class="rounded-xl bg-page dark:bg-chip border border-line dark:border-edge p-4">
+        <p class="text-[13px] font-extrabold mb-2">팀 만들기</p>
+        <input id="newTeamName" class="w-full h-11 px-3.5 rounded-xl bg-white dark:bg-surface border border-line dark:border-edge text-sm focus:outline-none focus:border-blue-dot transition" placeholder="팀 이름">
+        <button id="createBtn" class="mt-2.5 w-full h-11 rounded-xl bg-ink dark:bg-fg text-white dark:text-canvas text-sm font-bold hover:opacity-90 transition">만들기</button>
+      </div>
+      <div class="rounded-xl bg-page dark:bg-chip border border-line dark:border-edge p-4">
+        <p class="text-[13px] font-extrabold mb-2">초대코드로 합류</p>
+        <input id="joinCode" class="w-full h-11 px-3.5 rounded-xl bg-white dark:bg-surface border border-line dark:border-edge text-sm font-mono tracking-widest focus:outline-none focus:border-blue-dot transition" placeholder="MN-7K2D">
+        <button id="joinBtn" class="mt-2.5 w-full h-11 rounded-xl bg-white dark:bg-surface border border-line dark:border-edge text-sm font-bold hover:border-ink dark:hover:border-dim transition">합류</button>
+      </div>
+    </div>
+    <div id="joinErr" class="hidden mt-3"></div>
+  </section>
+
+  <!-- 팀 정보 -->
+  <section id="info" class="rounded-2xl bg-white dark:bg-surface border border-line dark:border-edge p-5">
+    <div class="flex flex-wrap items-start gap-4">
+      <div class="flex-1 min-w-[200px]">
+        <p class="text-[11px] font-bold text-ink-3 dark:text-dim mb-1">팀 이름</p>
+        <input id="tName" value="기획팀"
+          class="w-full h-11 px-3.5 rounded-xl bg-page dark:bg-chip border border-line dark:border-edge text-sm font-bold focus:outline-none focus:border-blue-dot transition">
+        <button id="saveName" type="button" class="mt-2 h-9 px-4 rounded-xl bg-blue-dot text-white text-[13px] font-bold">이름 저장</button>
+      </div>
+      <div>
+        <p class="text-[11px] font-bold text-ink-3 dark:text-dim mb-1">초대코드</p>
+        <div class="flex gap-2">
+          <div class="h-11 px-4 grid place-items-center rounded-xl bg-page dark:bg-chip border border-line dark:border-edge
+                      font-mono text-sm font-extrabold tracking-[0.2em]" id="code">MN-7K2D</div>
+          <button id="copyBtn" class="h-11 px-3.5 rounded-xl bg-white dark:bg-chip border border-line dark:border-edge text-[13px] font-bold hover:border-ink dark:hover:border-dim transition">복사</button>
+          <button id="newCodeBtn" class="h-11 px-3.5 rounded-xl bg-white dark:bg-chip border border-line dark:border-edge text-[13px] font-bold hover:border-ink dark:hover:border-dim transition">재발급</button>
+        </div>
+      </div>
+    </div>
+    <div id="codeMsg" class="hidden mt-3"></div>
+  </section>
+
+  <!-- 멤버 -->
+  <section class="rounded-2xl bg-white dark:bg-surface border border-line dark:border-edge p-5">
+    <div class="flex items-baseline gap-2 mb-3">
+      <h2 class="text-sm font-extrabold">멤버 <span id="mCap" class="text-ink-3 dark:text-dim font-bold">4 / 6</span></h2>
+      <span class="ml-auto text-[11px] text-ink-3 dark:text-dim">팀당 6명 이내</span>
+    </div>
+    <ul id="members" class="grid gap-2 sm:grid-cols-2"></ul>
+  </section>
+
+  <!-- 활동 기록 -->
+  <section class="rounded-2xl bg-white dark:bg-surface border border-line dark:border-edge p-5">
+    <div class="flex items-baseline gap-2 mb-3">
+      <h2 class="text-sm font-extrabold">활동 기록</h2>
+      <span class="text-[11px] text-ink-3 dark:text-dim">최근 순</span>
+    </div>
+    <ol id="acts" class="space-y-2.5"></ol>
+  </section>
+</main>
+
+<script src="api.js"></script>
+<script src="team.js"></script>
+</body>
+</html>

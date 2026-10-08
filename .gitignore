@@ -1,0 +1,30 @@
+# 비밀 값 - .env.example 만 올린다
+.env
+.env.*
+!.env.example
+
+# 로컬 SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# todo-guard 세션 기록 (PC마다 다름)
+.claude/todo-guard/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 녹취 파일 (개인 자료)
+*.wav
+*.mp3
+
+# Playwright 시험 기록
+.playwright-mcp/
